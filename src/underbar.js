@@ -346,8 +346,6 @@
       var temp = arr[x];
       arr[x]=arr[i];
       arr[i]=temp;
-      // if(_.indexOf(arr,array[x]) === -1){
-      // arr.push(array[x])
     }
     return arr;
   };
@@ -364,6 +362,18 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    var arr= [] ;
+    if( typeof(functionOrKey) === 'string'){
+       _.each(collection, function(elem , key){
+        arr.push(elem[functionOrKey].apply(elem,args))
+      })
+     }
+     else {
+      _.each(collection, function(elem , key){
+        arr.push(functionOrKey.apply(elem,arguments))
+      })
+    }
+    return arr;
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -371,6 +381,14 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    var arr= [] ;
+    _.each(collection , function(elem , key){
+      if(collection[key]=== iterator){
+      arr.push(elem) 
+      }
+    })
+    return arr.sort();
+
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -379,6 +397,20 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var arr = [] ;
+    var smallarr=[];
+    var x =Array.from(arguments)
+    for (var i = 0; i < x.length; i++) {
+      for (var j = 0; j < x.length; j++) {
+      smallarr.push( x[j][i])
+    if(smallarr.length === arguments.length ){
+        arr.push(smallarr)
+        smallarr=[] ;
+      }
+   
+      }
+    }
+    return arr ; 
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
